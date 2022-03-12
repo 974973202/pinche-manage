@@ -40,14 +40,14 @@ export default function request(url = '', data = {}, method = 'GET') {
         value: JSON.stringify(data)
       })
     }
-    // let baseUrl;
-    // if(process.env.NODE_ENV === 'production') {
-    //   baseUrl = process.env.REACT_APP_PRODUCTION_API_URL
-    // } else if(process.env.NODE_ENV === 'development'){
-    //   baseUrl = process.env.REACT_APP_DEVLOPMENT_API_URL
-    // }
+    let baseUrl;
+    if(process.env.NODE_ENV === 'production') {
+      baseUrl = process.env.REACT_APP_PRODUCTION_API_URL
+    } else if(process.env.NODE_ENV === 'development'){
+      baseUrl = process.env.REACT_APP_DEVLOPMENT_API_URL
+    }
     // console.log(process.env.NODE_ENV)
-    let baseUrl = 'http://120.77.57.129:3303'
+    // let baseUrl = 'http://120.77.57.129:3303'
     url = `${baseUrl}${url}`;
     // const req = new Request(url, options)
     // fetch(req)
