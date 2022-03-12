@@ -1,0 +1,1 @@
+declare module '@heerey525/china-division-data';
