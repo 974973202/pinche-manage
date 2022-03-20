@@ -6,16 +6,17 @@ const cloudStorage = require("../utils/callCloudStorage.js");
 router.get("/list", async (ctx, next) => {
   const params = ctx.request.query;
   let query = `
-      db.collection('Certificates').skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
+      db.collection('User').where({
+        driveStatus: db.command.in([0,1,2]),
+      }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
     `;
-  if (params.status !== undefined) {
+  if (params.driveStatus !== undefined) {
     // 根据审核状态查询 全部 成功 失败
     query = `
-      db.collection('Certificates').where({status: ${params.status}}).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
+      db.collection('User').where({driveStatus: ${params.driveStatus}}).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
     `;
   }
   const res = await callCloudDB(ctx, "databasequery", query);
-
   // let zmJszImage = [];
   // let fmJszImage = [];
   // let zmXszImage = [];
@@ -35,6 +36,9 @@ router.get("/list", async (ctx, next) => {
     }, {
       fileid: JSON.parse(data[i]).fmXszImage,
       max_age: 7200,
+    }, {
+      fileid: JSON.parse(data[i]).photo,
+      max_age: 7200,
     }]);
   }
 
@@ -43,10 +47,6 @@ router.get("/list", async (ctx, next) => {
     const { file_list } = await cloudStorage.download(ctx, image[i]);
     fileList.push(file_list)
   }
-  // console.log(fileList)
-  // const { file_list: fmSfz } = await cloudStorage.download(ctx, fmJszImage);
-  // const { file_list: fmSfz } = await cloudStorage.download(ctx, zmXszImage);
-  // console.log(zmSfz, "dlResdlRes", fmSfz, data);
 
   let returnData = [];
   for (let i = 0, len = data.length; i < len; i++) {
@@ -55,6 +55,7 @@ router.get("/list", async (ctx, next) => {
     d.fmJszImage = fileList[i][1].download_url;
     d.zmXszImage = fileList[i][2].download_url;
     d.fmXszImage = fileList[i][3].download_url;
+    d.photo = fileList[i][4].download_url;
     returnData.push(d);
   }
 
@@ -73,7 +74,7 @@ router.post("/update", async (ctx, next) => {
   const params = ctx.request.body;
   const query = `
     db.collection('User').doc('${params._id}').update({
-      data: { status: ${params.status} }
+      data: { driveStatus: ${params.driveStatus} }
     })
   `;
   const res = await callCloudDB(ctx, "databaseupdate", query);

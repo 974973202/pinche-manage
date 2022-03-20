@@ -1,6 +1,32 @@
 import request from './fetch'
 // import request from './axios'
 
+// login
+export const isLogin = async (params = {}) => {
+  try {
+    return await request('/login', params, 'post');
+    // return data;
+  } catch(e) {
+    throw Error(e)
+  }
+}
+
+// province
+export const getProvinceList = async (params = {}) => {
+  try {
+    return await request('/province/list', params);
+  } catch(e) {
+    throw Error(e)
+  }
+}
+export const updateProvinceList = async (params = {}) => {
+  try {
+    return await request('/province/update', params, 'post');
+  } catch(e) {
+    throw Error(e)
+  }
+}
+
 const getList = async (params = {}) => {
   try {
     const { code, data } = await request('/certification/list', params);

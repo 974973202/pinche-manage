@@ -1,13 +1,16 @@
 import React, { lazy, Suspense } from "react";
 import { Button } from "antd";
 import LayoutMaster from "./layouts/LayoutMaster";
-import { HashRouter, useRoutes, Routes } from "react-router-dom";
+import { BrowserRouter, useRoutes, Routes } from "react-router-dom";
 import "./App.css";
 
+
+const Login = lazy(() => import("./layouts/Login"))
 const Certification = lazy(() => import("./pages/Certification/Certification"))
 const OwnerCertification = lazy(() => import("./pages/OwnerCertification/OwnerCertification"))
 const WayRemmend = lazy(() => import("./pages/WayRemmend/wayRemmend"))
 const Passenger = lazy(() => import("./pages/Passenger/passenger"))
+const Province = lazy(() => import("./pages/areaManager/province"))
 
 function RenderRoutes(
   props: JSX.IntrinsicAttributes & { children?: React.ReactNode }
@@ -15,10 +18,19 @@ function RenderRoutes(
   const routes = useRoutes([
     {
       path: "/",
+      caseSensitive: true,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Login />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/index",
       element: <LayoutMaster />,
       children: [
         {
-          path: "/certification",
+          path: "/index/certification",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <Certification />
@@ -26,7 +38,7 @@ function RenderRoutes(
           ),
         },
         {
-          path: "/ownerCertification",
+          path: "/index/ownerCertification",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <OwnerCertification />
@@ -34,7 +46,7 @@ function RenderRoutes(
           ),
         },
         {
-          path: "/wayRemmend",
+          path: "/index/wayRemmend",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <WayRemmend />
@@ -42,10 +54,18 @@ function RenderRoutes(
           ),
         },
         {
-          path: "/passenger",
+          path: "/index/passenger",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <Passenger />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/index/areaManager",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Province />
             </Suspense>
           ),
         },
@@ -59,7 +79,7 @@ function RenderRoutes(
 function App() {
   return (
     <div className='App'>
-      <HashRouter>
+      <BrowserRouter>
         {/* <Routes> */}
         <RenderRoutes />
         {/* {JSON.stringify(routes)} */}
@@ -67,7 +87,7 @@ function App() {
         {/* {renderRoutes(routes)} */}
         {/* </Provider> */}
         {/* </Routes> */}
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }

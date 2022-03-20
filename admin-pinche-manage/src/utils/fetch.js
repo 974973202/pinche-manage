@@ -27,7 +27,8 @@ export default function request(url = '', data = {}, method = 'GET') {
       headers: {
         // 'Access-Control-Allow-Origin':'*',
         'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
       },
       // mode: 'no-cors',
       // credentials: 'include',
@@ -63,6 +64,7 @@ export default function request(url = '', data = {}, method = 'GET') {
           }
         } else {
           console.error(response)
+          // window.href = 'http://localhost:3303/'
           return reject()
           // return Toast.info(`${response.status} ${response.statusText}`)
         }

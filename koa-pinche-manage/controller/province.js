@@ -5,43 +5,28 @@ const cloudStorage = require("../utils/callCloudStorage.js");
 
 router.get("/list", async (ctx, next) => {
   const params = ctx.request.query;
-  console.log(params)
+  const { name = '', phone = '' } = params;
   let query = `
-      db.collection('User').skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
+      db.collection('User').where({
+        driveStatus: 1,
+      }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
     `;
-  if (params.status !== undefined) { // 根据审核状态查询
+  if (phone !== '') {
     query = `
-      db.collection('User').where({status: ${params.status}}).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
+      db.collection('User').where({
+        driveStatus: 1,
+        phone: ${JSON.stringify(phone)}
+      }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
     `;
   }
   const res = await callCloudDB(ctx, "databasequery", query);
   console.log(res, 'res')
-
-  let zmSfzImage = [];
-  let fmSfzImage = [];
+  let returnData = [];
   const data = res.data || [];
   for (let i = 0, len = data.length; i < len; i++) {
-    zmSfzImage.push({
-      fileid: JSON.parse(data[i]).zmSfzImage,
-      max_age: 7200,
-    });
-    fmSfzImage.push({
-      fileid: JSON.parse(data[i]).fmSfzImage,
-      max_age: 7200,
-    });
-  }
-
-  const { file_list: zmSfz } = await cloudStorage.download(ctx, zmSfzImage);
-  const { file_list: fmSfz } = await cloudStorage.download(ctx, fmSfzImage);
-  // console.log(zmSfz, "dlResdlRes", fmSfz, data);
-  let returnData = [];
-  for (let i = 0, len = data.length; i < len; i++) {
     let d = JSON.parse(data[i]);
-    d.zmSfzImage = zmSfz[i].download_url;
-    d.fmSfzImage = fmSfz[i].download_url;
     returnData.push(d);
   }
-
   ctx.body = {
     code: 20000,
     data: {
@@ -55,12 +40,23 @@ router.get("/list", async (ctx, next) => {
 
 router.post("/update", async (ctx, next) => {
   const params = ctx.request.body;
-  const query = `
+  const { province = '', city='', antd = '' } = params;
+  console.log(province, city, antd)
+  let query = `
     db.collection('User').doc('${params._id}').update({
-      data: { status: ${params.status} }
+      data: { 
+        pwd: ${JSON.stringify(params.pwd)},
+        province: ${JSON.stringify(province)}, 
+        city: ${JSON.stringify(city)}, 
+        antd: ${JSON.stringify(antd)}, 
+      }
     })
-  `;
+    `;
+    // if (province)
+    // city: ${params.city && JSON.stringify(params.city) || ''}, 
+    // antd: ${params.antd && JSON.stringify(params.antd) || ''},
   const res = await callCloudDB(ctx, "databaseupdate", query);
+  console.log(res)
   ctx.body = {
     code: 20000,
     data: res,

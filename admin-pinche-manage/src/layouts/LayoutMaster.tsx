@@ -1,12 +1,14 @@
 import React from 'react';
 import { Layout } from 'antd';
-import Icon from '@ant-design/icons'
+import {UserOutlined} from '@ant-design/icons'
 import './LayoutMaster.css';
 import SideMenu from './SideMenu';
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 
 const LayoutMaster: React.FunctionComponent = () => {
+  const navigate = useNavigate();
+
 	const [ collapsed, setCollapsed ] = React.useState(false);
 	const { Header, Sider, Footer } = Layout;
 	return (
@@ -17,11 +19,18 @@ const LayoutMaster: React.FunctionComponent = () => {
 			</Sider>
 			<Layout>
 				<Header style={{ background: '#fff', padding: 0 }}>
-					<Icon
+					<UserOutlined 
 						className="trigger"
-						type={collapsed ? 'menu-unfold' : 'menu-fold'}
-						onClick={() => setCollapsed(!collapsed)}
+						// type={collapsed ? 'menu-unfold' : 'menu-fold'}
+						// onClick={() => setCollapsed(!collapsed)}
 					/>
+					{localStorage.getItem("phone")}
+					<span style={{marginLeft: 20}} onClick={() => {
+						localStorage.removeItem("token");
+						localStorage.removeItem("phone");
+						navigate("/");
+					}}>退出登陆</span>
+
 				</Header>
 				<div style={{minHeight: 500}}>
 					<Outlet/>
