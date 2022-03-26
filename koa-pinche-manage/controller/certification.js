@@ -5,7 +5,6 @@ const cloudStorage = require("../utils/callCloudStorage.js");
 
 router.get("/list", async (ctx, next) => {
   const params = ctx.request.query;
-  console.log(params)
   let query = `
       db.collection('User').skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
     `;
@@ -15,7 +14,6 @@ router.get("/list", async (ctx, next) => {
     `;
   }
   const res = await callCloudDB(ctx, "databasequery", query);
-  console.log(res, 'res')
 
   let zmSfzImage = [];
   let fmSfzImage = [];
@@ -33,7 +31,6 @@ router.get("/list", async (ctx, next) => {
 
   const { file_list: zmSfz } = await cloudStorage.download(ctx, zmSfzImage);
   const { file_list: fmSfz } = await cloudStorage.download(ctx, fmSfzImage);
-  // console.log(zmSfz, "dlResdlRes", fmSfz, data);
   let returnData = [];
   for (let i = 0, len = data.length; i < len; i++) {
     let d = JSON.parse(data[i]);

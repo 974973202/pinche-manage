@@ -24,10 +24,13 @@ const LayoutMaster: React.FunctionComponent = () => {
 						// type={collapsed ? 'menu-unfold' : 'menu-fold'}
 						// onClick={() => setCollapsed(!collapsed)}
 					/>
-					{localStorage.getItem("phone")}
+					{localStorage.getItem("phone") || '未识别用户'}
 					<span style={{marginLeft: 20}} onClick={() => {
 						localStorage.removeItem("token");
 						localStorage.removeItem("phone");
+						localStorage.removeItem("province");
+						localStorage.removeItem("city");
+						localStorage.removeItem("antd");
 						navigate("/");
 					}}>退出登陆</span>
 

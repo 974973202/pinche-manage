@@ -8,7 +8,6 @@ jwt = require("jsonwebtoken");
 router.post('/', async(ctx, next)=>{
   const { phone, password } = ctx.request.body
   if(phone === '18888888888') {
-    console.log(111)
     if(password === 'fengzhengkeji') {
       const token = jwt.sign(
         {
@@ -23,6 +22,7 @@ router.post('/', async(ctx, next)=>{
         data: {
           token,
           phone,
+          isAuth: 'root',
         },
       };
     } else {
@@ -39,15 +39,16 @@ router.post('/', async(ctx, next)=>{
       phone: ${JSON.stringify(phone)}
     }).get()
     `;
-    const { errcode, errmsg, data } = await callCloudDB(ctx, "databasequery", query);
-    if(data.length <= 0 || JSON.parse(data).length <= 0) {
+    const { errcode, errmsg, data = [] } = await callCloudDB(ctx, "databasequery", query);
+    console.log(data, phone, password)
+    if(data && data.length <= 0 || JSON.parse(data).length <= 0) {
       ctx.body = {
         code: 40003,
         msg: '账号不存在',
         data: {},
       };
     }else {
-      const {pwd, phone: p} = JSON.parse(data)
+      const {pwd, phone: p, province, city, antd} = JSON.parse(data)
       if (pwd && pwd == password) {
         const token = jwt.sign(
           {
@@ -61,7 +62,11 @@ router.post('/', async(ctx, next)=>{
           msg: '登陆成功',
           data: {
             token,
-            phone
+            phone,
+            province,
+            city,
+            antd,
+            isAuth: 'user'
           },
         };
       } else {

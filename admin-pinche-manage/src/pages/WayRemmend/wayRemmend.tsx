@@ -15,16 +15,33 @@ interface wayInfoObj {
 
 function WayRemmend() {
   const [wayInfo, setWayInfo] = useState<Array<wayInfoObj>>([]);
+  const [type, setType] = useState<string>('');
+  const [userInfo, setUserInfo] = useState<any>({
+    province: localStorage.getItem("province"),
+    city: localStorage.getItem("city"),
+    antd: localStorage.getItem("antd"),
+    isAuth: localStorage.getItem("isAuth") || '',
+  });
 
-  const getListData = async () => {
-    const {data} = await getWayInfoList();
+  const getListData = async (params: any) => {
+    const {data = []} = await getWayInfoList(params);
+    console.log(data)
     if(data.length > 0) {
-      setWayInfo(data[0].wayInfo);
+      setWayInfo(data);
     }
   };
 
   useEffect(() => {
-    getListData();
+    const { province, city, antd, isAuth } = userInfo;
+    let params: any = {
+      type: isAuth,
+      root: 'root'
+    }
+    setType(isAuth)
+    if(antd) { params = {antd: antd, type: 'antd'}; setType(antd); }
+    if(city) { params = {city: city, type: 'city'}; setType(city); }
+    if(province) { params = {province: province, type: 'province'}; setType(province); }
+    getListData(params);
   }, []);
 
   function onChange(e: any, i: number, type: string) {
@@ -43,7 +60,7 @@ function WayRemmend() {
   }
   async function onSave() {
     const {errmsg} = await updateWayInfoList({
-      data: wayInfo
+      [type]: wayInfo
     });
     if (errmsg === 'ok') {
       message.success('保存成功')

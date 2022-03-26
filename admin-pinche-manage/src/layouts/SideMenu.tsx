@@ -11,6 +11,7 @@ import { Link, useLocation } from "react-router-dom";
 const { SubMenu } = Menu;
 
 const MainMenu: React.FunctionComponent<any> = (props) => {
+	const [ isAuth, ] = React.useState(localStorage.getItem("isAuth"));
   const location = useLocation();
   return (
     <Menu theme='dark' mode='inline' selectedKeys={[location.pathname]}>
@@ -26,12 +27,12 @@ const MainMenu: React.FunctionComponent<any> = (props) => {
 					<span>实名认证 </span>
 				</Link>
 			</Menu.Item> */}
-      <Menu.Item key='/index/ownerCertification'>
+      {isAuth === 'root' ? <Menu.Item key='/index/ownerCertification'>
         <Link to='/index/ownerCertification'>
           <UserOutlined />
           <span>车主认证 </span>
         </Link>
-      </Menu.Item>
+      </Menu.Item> : null}
       <Menu.Item key='/index/wayRemmend'>
         <Link to='/index/wayRemmend'>
           <ArrowRightOutlined />
@@ -39,12 +40,12 @@ const MainMenu: React.FunctionComponent<any> = (props) => {
         </Link>
       </Menu.Item>
 
-			<Menu.Item key='/index/areaManager'>
-          <Link to='/index/areaManager'>
-            <UsergroupAddOutlined />
-            <span>负责人 </span>
-          </Link>
-        </Menu.Item>
+			{isAuth === 'root' ? <Menu.Item key='/index/areaManager'>
+        <Link to='/index/areaManager'>
+          <UsergroupAddOutlined />
+          <span>负责人 </span>
+        </Link>
+      </Menu.Item> : null}
 
       {/* <SubMenu
         key='/index/areaManager'

@@ -10,12 +10,18 @@ export default function Login() {
 
   const { data, run } = useRequest((params)=>isLogin(params), {
     manual: true,
-    onSuccess:({ code, msg, data: { token = '', phone = '' } }) => {
+    onSuccess:({ code, msg, data: { 
+      token = '', phone = '', province = '', city='', antd = '', isAuth
+     } }) => {
       // return data
       if(code == 20000) {
         console.log(token, 'token')
         localStorage.setItem("token", token);
         localStorage.setItem("phone", phone);
+        localStorage.setItem("province", province);
+        localStorage.setItem("city", city);
+        localStorage.setItem("antd", antd);
+        localStorage.setItem("isAuth", isAuth);
         navigate("/index");
         message.success(msg)
       } else {

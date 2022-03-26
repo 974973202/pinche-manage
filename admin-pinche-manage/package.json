@@ -38,7 +38,6 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
-  "homepage": ".",
   "eslintConfig": {
     "extends": [
       "react-app",

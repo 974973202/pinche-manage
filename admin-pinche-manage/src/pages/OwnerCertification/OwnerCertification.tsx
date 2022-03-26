@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Tag, message, Modal } from "antd";
 import { getCarList, updateCarList } from "../../utils/request";
 import TablleCompoent from "../../components/Table";
-import Icon from "@ant-design/icons";
 
 function OwnerCertification() {
   const [list, setList] = useState([]);
@@ -19,11 +18,11 @@ function OwnerCertification() {
     setList(data);
   };
 
-  async function handleUpdate(record: any, status: number) {
+  async function handleUpdate(record: any, driveStatus: number) {
     setLoading(true);
     await updateCarList({
       _id: record._id,
-      status: status,
+      driveStatus: driveStatus,
     });
     getListData({
       start: 0,
@@ -43,6 +42,20 @@ function OwnerCertification() {
       dataIndex: "phone",
       key: "phone",
       align: "center",
+    },
+    {
+      title: "个人照片",
+      dataIndex: "photo",
+      key: "photo",
+      align: "center",
+      render: (text: string) => (
+        <img
+          onClick={() => setShowModal({ show: true, url: text })}
+          style={{ height: 100 }}
+          src={text}
+          alt='个人照片'
+        />
+      ),
     },
     {
       title: "驾驶证正面照",
@@ -102,8 +115,8 @@ function OwnerCertification() {
     },
     {
       title: "状态",
-      dataIndex: "status",
-      key: "status",
+      dataIndex: "driveStatus",
+      key: "driveStatus",
       align: "center",
       render: (text: string | number) => (
         <Tag color='#2db7f5'>
@@ -123,7 +136,7 @@ function OwnerCertification() {
         <>
           <Button
             onClick={() => handleUpdate(record, 1)}
-            disabled={record.status != 0}
+            disabled={record.driveStatus != 0}
             size='small'
             style={{ marginLeft: "10px" }}
           >
@@ -131,7 +144,7 @@ function OwnerCertification() {
           </Button>
           <Button
             onClick={() => handleUpdate(record, 2)}
-            disabled={record.status != 0}
+            disabled={record.driveStatus != 0}
             size='small'
             style={{ marginLeft: "10px" }}
           >
@@ -176,6 +189,7 @@ function OwnerCertification() {
             url: "",
           });
         }}
+        title="信息展示"
         footer={null}
         visible={showModal.show}
       >
