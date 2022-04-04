@@ -30,7 +30,6 @@ function OwnerCertification() {
     if (province) {
       region = province.toString();
     }
-    console.log(region)
     getListData({
       start: 0,
       region,
@@ -40,7 +39,6 @@ function OwnerCertification() {
 
   const getListData = async (params: {} | undefined) => {
     const data = await getCarList(params);
-    console.log(data);
     setLoading(false);
     setList(data);
   };

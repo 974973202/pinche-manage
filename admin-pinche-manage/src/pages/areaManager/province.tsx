@@ -61,14 +61,12 @@ function Province() {
 
   const getListData = async (params: {} | undefined) => {
     const {data} = await getProvinceList(params);
-    console.log(data, 'dddd');
     setLoading(false);
     setList(data);
   };
 
 
   const onChange = (e: Event, type: string) => {
-    console.log(e, type);
   };
 
   const columns = [
@@ -117,7 +115,6 @@ function Province() {
         <>
           <Button
             onClick={() => {
-              console.log(record, "record");
               form.setFieldsValue({ ...record });
               setIsModalVisible(true);
             }}

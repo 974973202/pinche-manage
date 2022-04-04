@@ -13,7 +13,6 @@ function Certification(props: any) {
 
   const getListData = async (params: {} | undefined) => {
     const data = await getList(params);
-    console.log(data);
     setLoading(false);
     setList(data);
   };

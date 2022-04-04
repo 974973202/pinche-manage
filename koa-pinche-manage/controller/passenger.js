@@ -7,9 +7,6 @@ const cloudStorage = require("../utils/callCloudStorage.js");
 router.get("/list", async (ctx, next) => {
   const params = ctx.request.query;
   const { endRegion = '', startRegion='', status } = params;
-  console.log('endRegion', endRegion)
-  console.log('startRegion', startRegion)
-  console.log('status', status)
   let query = `
       db.collection('PassengerPublish').skip(${params.start}).limit(${params.count}).orderBy('createdTime', 'desc').get()
       `;

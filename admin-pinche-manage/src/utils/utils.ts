@@ -42,6 +42,5 @@ export function useCityData(cityData: any) {
 
 export function useProvinceData(provinceData: any) {
   let province: any = []
-  console.log(provinceData, 'provinceData')
   return [province];
 }

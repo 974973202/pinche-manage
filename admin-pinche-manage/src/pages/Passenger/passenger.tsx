@@ -39,10 +39,8 @@ function Passenger() {
 
   const getOnlineDriver = async (params: {}) => {
     setCurPas(params) // 当前待分配乘客列表
-    console.log(params, 'params')
     const { data } = await getOnlineDriverList(params);
     if (data.length > 0) {
-      console.log(data);
       setCarList(data)
       setIsModalVisible(true)
       setcarLoading(false)

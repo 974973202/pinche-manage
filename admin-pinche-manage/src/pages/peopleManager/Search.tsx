@@ -22,7 +22,6 @@ export default function Search(props: any) {
 
   function onFinish() {
     form.validateFields().then(async (values: any) => {
-      console.log(values, 'valuesvalues')
       const {data: { errcode }} = await getListData({
         ...values,
         start: 0,
@@ -38,11 +37,7 @@ export default function Search(props: any) {
          message.success('查询失败')
        }
      })
-    console.log({
-      ...params,
-      start: 0,
-      count: 10,
-    });
+    
   }
 
   return (

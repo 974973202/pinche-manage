@@ -7,7 +7,6 @@ const cloudStorage = require("../utils/callCloudStorage.js");
 router.get("/list", async (ctx, next) => {
   const params = ctx.request.query;
   const { region } = params;
-  console.log(JSON.stringify(region))
   let query = `db.collection('User')
   .where({
     realRegion: db.RegExp({

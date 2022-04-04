@@ -15,16 +15,10 @@ export default function Search(props: any) {
   const { getListData } = props;
   function onChange(e: Event, n: string) {
     setParams({...params, [n]: e === undefined ? '' : e})
-    console.log(e, n);
   }
 
   function handleSearch() {
     getListData({
-      ...params,
-      start: 0,
-      count: 10,
-    })
-    console.log({
       ...params,
       start: 0,
       count: 10,

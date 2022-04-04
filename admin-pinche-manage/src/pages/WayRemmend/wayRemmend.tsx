@@ -25,7 +25,6 @@ function WayRemmend() {
 
   const getListData = async (params: any) => {
     const {data = []} = await getWayInfoList(params);
-    console.log(data)
     if(data.length > 0) {
       setWayInfo(data);
     }
@@ -45,7 +44,6 @@ function WayRemmend() {
   }, []);
 
   function onChange(e: any, i: number, type: string) {
-    console.log(e, i);
     wayInfo.forEach((ele, index) => {
       if (i == index) {
         if (type === "startRegion") ele.startRegion = e;

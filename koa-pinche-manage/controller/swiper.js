@@ -7,7 +7,6 @@ router.get('/list', async (ctx, next) => {
     // 默认10条数据
     const query = `db.collection('swiper').get()`
     const res = await callCloudDB(ctx, 'databasequery', query)
-    console.log(res, 'resss')
     // 获取图片下载链接
     let fileList = []
     const data = res.data || [];
@@ -18,7 +17,6 @@ router.get('/list', async (ctx, next) => {
         })
     }
     const { errcode, errmsg, file_list } = await cloudStorage.download(ctx, fileList);
-    console.log(dlRes, 'dlResdlRes')
     let returnData = []
     for (let i = 0, len = dlRes.file_list.length; i < len; i++) {
         returnData.push({

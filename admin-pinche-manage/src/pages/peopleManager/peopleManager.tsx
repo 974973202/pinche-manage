@@ -37,7 +37,6 @@ function PeopleManager() {
 
   const getListData = async (params: {} | undefined) => {
     const { data } = await getRequest("/areaPublich/list", params);
-    console.log(data);
     setLoading(false);
     setList(data);
   };
@@ -85,7 +84,6 @@ function PeopleManager() {
 
   const handleModal = async (_openid: string) => {
     const { data } = await postRequest("/areaPublich/detail", {_openid: _openid});
-    console.log(data, _openid);
     setModalShow(true);
     setModalData(data.data)
   };

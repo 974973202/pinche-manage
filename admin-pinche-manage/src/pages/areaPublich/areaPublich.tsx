@@ -36,7 +36,6 @@ function AreaPublich() {
 
   const getListData = async (params: {} | undefined) => {
     const { data } = await getRequest("/peopleManager/list", params);
-    console.log(data, "data");
     setLoading(false);
     setList(data);
   };

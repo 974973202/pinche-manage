@@ -40,7 +40,6 @@ router.post('/', async(ctx, next)=>{
     }).get()
     `;
     const { errcode, errmsg, data = [] } = await callCloudDB(ctx, "databasequery", query);
-    console.log(data, phone, password)
     if(data.length <= 0 || JSON.parse(data).length <= 0) {
       ctx.body = {
         code: 40003,
