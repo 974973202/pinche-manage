@@ -67,7 +67,8 @@ app.use(koajwt({
   }))
 
 const login = require("./controller/login");
-// const user = require("./controller/user");
+const areaPublich = require("./controller/areaPublich");
+const peopleManager = require("./controller/peopleManager");
 const certification = require("./controller/certification");
 const ownerCertification = require("./controller/ownerCertification");
 const wayInfo = require("./controller/wayInfo");
@@ -76,7 +77,8 @@ const province = require("./controller/province");
 
 router.use("/login", login.routes());
 
-// router.use("/user", user.routes());
+router.use("/areaPublich", areaPublich.routes());
+router.use("/peopleManager", peopleManager.routes());
 router.use("/certification", certification.routes());
 router.use("/ownerCertification", ownerCertification.routes());
 router.use("/wayInfo", wayInfo.routes());

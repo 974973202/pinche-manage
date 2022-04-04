@@ -41,7 +41,7 @@ router.post('/', async(ctx, next)=>{
     `;
     const { errcode, errmsg, data = [] } = await callCloudDB(ctx, "databasequery", query);
     console.log(data, phone, password)
-    if(data && data.length <= 0 || JSON.parse(data).length <= 0) {
+    if(data.length <= 0 || JSON.parse(data).length <= 0) {
       ctx.body = {
         code: 40003,
         msg: '账号不存在',

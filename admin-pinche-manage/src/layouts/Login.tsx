@@ -15,7 +15,6 @@ export default function Login() {
      } }) => {
       // return data
       if(code == 20000) {
-        console.log(token, 'token')
         localStorage.setItem("token", token);
         localStorage.setItem("phone", phone);
         localStorage.setItem("province", province);

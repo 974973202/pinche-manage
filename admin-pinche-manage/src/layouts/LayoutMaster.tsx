@@ -37,7 +37,6 @@ const LayoutMaster: React.FunctionComponent = () => {
 				</Header>
 				<div style={{minHeight: 500}}>
 					<Outlet/>
-
 				</div>
 				<Footer style={{ textAlign: 'center' }}>拼车小程序管理后台</Footer>
 			</Layout>

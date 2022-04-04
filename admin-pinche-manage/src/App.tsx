@@ -7,6 +7,8 @@ import "./App.css";
 
 const Login = lazy(() => import("./layouts/Login"))
 const Certification = lazy(() => import("./pages/Certification/Certification"))
+const AreaPublich = lazy(() => import("./pages/areaPublich/areaPublich"))
+const PeopleManager = lazy(() => import("./pages/peopleManager/peopleManager"))
 const OwnerCertification = lazy(() => import("./pages/OwnerCertification/OwnerCertification"))
 const WayRemmend = lazy(() => import("./pages/WayRemmend/wayRemmend"))
 const Passenger = lazy(() => import("./pages/Passenger/passenger"))
@@ -58,6 +60,22 @@ function RenderRoutes(
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <Passenger />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/index/areaPublich",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <AreaPublich />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/index/peopleManager",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <PeopleManager />
             </Suspense>
           ),
         },

@@ -39,6 +39,18 @@ const MainMenu: React.FunctionComponent<any> = (props) => {
           <span>路线推荐 </span>
         </Link>
       </Menu.Item>
+      <Menu.Item key='/index/areaPublich'>
+        <Link to='/index/areaPublich'>
+          <UsergroupAddOutlined />
+          <span>区域订单统计 </span>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key='/index/peopleManager'>
+        <Link to='/index/peopleManager'>
+          <UsergroupAddOutlined />
+          <span>车主订单统计 </span>
+        </Link>
+      </Menu.Item>
 
 			{isAuth === 'root' ? <Menu.Item key='/index/areaManager'>
         <Link to='/index/areaManager'>
