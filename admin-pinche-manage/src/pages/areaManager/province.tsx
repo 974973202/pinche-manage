@@ -33,10 +33,28 @@ function Province() {
   const [treeData] = useCityData(cityData);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editData, setEditData] = useState();
+  const [userInfo, setUserInfo] = useState<any>({
+    province: localStorage.getItem("province"),
+    city: localStorage.getItem("city"),
+    antd: localStorage.getItem("antd"),
+    isAuth: localStorage.getItem("isAuth") || "",
+  });
 
   useEffect(() => {
+    let region = "";
+    const { province, city, antd } = userInfo;
+    if (antd) {
+      region = antd.toString();
+    }
+    if (city) {
+      region = city.toString();
+    }
+    if (province) {
+      region = province.toString();
+    }
     getListData({
       start: 0,
+      region,
       count: 10,
     });
   }, []);

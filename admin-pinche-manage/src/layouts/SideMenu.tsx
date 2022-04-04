@@ -27,12 +27,12 @@ const MainMenu: React.FunctionComponent<any> = (props) => {
 					<span>实名认证 </span>
 				</Link>
 			</Menu.Item> */}
-      {isAuth === 'root' ? <Menu.Item key='/index/ownerCertification'>
+      <Menu.Item key='/index/ownerCertification'>
         <Link to='/index/ownerCertification'>
           <UserOutlined />
           <span>车主认证 </span>
         </Link>
-      </Menu.Item> : null}
+      </Menu.Item>
       <Menu.Item key='/index/wayRemmend'>
         <Link to='/index/wayRemmend'>
           <ArrowRightOutlined />

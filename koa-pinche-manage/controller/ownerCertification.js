@@ -5,15 +5,28 @@ const cloudStorage = require("../utils/callCloudStorage.js");
 
 router.get("/list", async (ctx, next) => {
   const params = ctx.request.query;
+  console.log(params.region)
   let query = `
-      db.collection('User').where({
-        driveStatus: db.command.in([0,1,2]),
-      }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
+      db.collection('User').where(
+        {
+          driveStatus: db.command.in([0,1,2]),
+          realRegion: db.RegExp({
+            regexp: "${params.region}",
+            option: 'i'
+          })
+        }
+      ).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
     `;
   if (params.driveStatus !== undefined) {
     // 根据审核状态查询 全部 成功 失败
     query = `
-      db.collection('User').where({driveStatus: ${params.driveStatus}}).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
+      db.collection('User').where({
+        driveStatus: ${params.driveStatus},
+        realRegion: db.RegExp({
+          regexp: "${params.region}",
+          option: 'i'
+        }),
+      }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()
     `;
   }
   const res = await callCloudDB(ctx, "databasequery", query);

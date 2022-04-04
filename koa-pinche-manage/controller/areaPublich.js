@@ -11,7 +11,7 @@ router.get("/list", async (ctx, next) => {
   let query = `db.collection('User')
   .where({
     realRegion: db.RegExp({
-      regexp: '[${JSON.stringify(region)}]',
+      regexp: "${region}",
       option: 'i'
     })
   }).skip(${params.start}).limit(${params.count}).get()`;

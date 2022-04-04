@@ -10,6 +10,33 @@ function OwnerCertification() {
     show: false,
     url: "",
   });
+  const [userInfo, setUserInfo] = useState<any>({
+    province: localStorage.getItem("province"),
+    city: localStorage.getItem("city"),
+    antd: localStorage.getItem("antd"),
+    isAuth: localStorage.getItem("isAuth") || "",
+  });
+  const [region, setRegion] = useState('')
+
+  useEffect(() => {
+    let region = "";
+    const { province, city, antd } = userInfo;
+    if (antd) {
+      region = antd.toString();
+    }
+    if (city) {
+      region = city.toString();
+    }
+    if (province) {
+      region = province.toString();
+    }
+    console.log(region)
+    getListData({
+      start: 0,
+      region,
+      count: 10,
+    });
+  }, []);
 
   const getListData = async (params: {} | undefined) => {
     const data = await getCarList(params);
@@ -26,6 +53,7 @@ function OwnerCertification() {
     });
     getListData({
       start: 0,
+      region,
       count: 10,
     });
   }
@@ -41,6 +69,14 @@ function OwnerCertification() {
       title: "手机号",
       dataIndex: "phone",
       key: "phone",
+      align: "center",
+    },
+    {
+      title: "注册区域",
+      dataIndex: "realRegion",
+      key: "realRegion",
+      width: 150,
+      // ellipsis: true,
       align: "center",
     },
     {
@@ -162,12 +198,7 @@ function OwnerCertification() {
     });
   }
 
-  useEffect(() => {
-    getListData({
-      start: 0,
-      count: 10,
-    });
-  }, []);
+  
 
   return (
     <>
