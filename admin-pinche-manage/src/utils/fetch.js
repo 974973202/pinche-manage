@@ -63,8 +63,10 @@ export default function request(url = '', data = {}, method = 'GET') {
             return reject(e)
           }
         } else {
-          console.error(response)
-          // window.href = 'http://localhost:3303/'
+          console.log(response)
+          if(response.status === 401) {
+            window.location.href = 'http://120.77.57.129/'
+          }
           return reject()
           // return Toast.info(`${response.status} ${response.statusText}`)
         }

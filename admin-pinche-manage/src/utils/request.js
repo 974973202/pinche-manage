@@ -63,6 +63,15 @@ const updateCarList = async (params = {}) => {
   }
 }
 
+const delCarList = async (id: number) => {
+  try {
+    const { code, data } = await request(`/ownerCertification/delete/${id}`, {}, 'DELETE');
+    return data;
+  } catch(e) {
+    throw Error(e)
+  }
+}
+
 const getWayInfoList = async (params = {}) => {
   try {
     const { code, data } = await request('/wayInfo/list', params);
@@ -113,6 +122,7 @@ export {
   updateList,
   getCarList,
   updateCarList,
+  delCarList,
   getWayInfoList,
   updateWayInfoList,
   getPassengerList,

@@ -13,6 +13,7 @@ const OwnerCertification = lazy(() => import("./pages/OwnerCertification/OwnerCe
 const WayRemmend = lazy(() => import("./pages/WayRemmend/wayRemmend"))
 const Passenger = lazy(() => import("./pages/Passenger/passenger"))
 const Province = lazy(() => import("./pages/areaManager/province"))
+const UserInfo = lazy(() => import("./pages/userInfo/userInfo"))
 
 function RenderRoutes(
   props: JSX.IntrinsicAttributes & { children?: React.ReactNode }
@@ -84,6 +85,14 @@ function RenderRoutes(
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <Province />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/index/userInfo",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <UserInfo />
             </Suspense>
           ),
         },

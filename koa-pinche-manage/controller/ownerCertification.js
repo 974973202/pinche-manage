@@ -8,7 +8,7 @@ router.get("/list", async (ctx, next) => {
   let query = `
       db.collection('User').where(
         {
-          driveStatus: db.command.in([0,1,2]),
+          driveStatus: db.command.in([0,1,2,3]),
           realRegion: db.RegExp({
             regexp: "${params.region}",
             option: 'i'
@@ -95,5 +95,16 @@ router.post("/update", async (ctx, next) => {
     data: res,
   };
 });
+
+router.delete('/delete/:id', async(ctx, next)=>{
+  const { id } = ctx.params;
+  console.log(id);
+  const query = `db.collection('User').doc('${id}').remove()`
+  const res = await callCloudDB(ctx, 'databasedelete', query)
+  ctx.body = {
+      code: 20000,
+      data: res
+  }
+})
 
 module.exports = router;

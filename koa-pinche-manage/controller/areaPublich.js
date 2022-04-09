@@ -12,18 +12,20 @@ router.get("/list", async (ctx, next) => {
     realRegion: db.RegExp({
       regexp: "${region}",
       option: 'i'
-    })
-  }).skip(${params.start}).limit(${params.count}).get()`;
+    }),
+    driveStatus: 1,
+  }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()`;
   if(region === 'root') {
-    query = `db.collection('User')
-      .skip(${params.start}).limit(${params.count}).get()`;
+    query = `db.collection('User').where({
+      driveStatus: 1,
+    }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()`;
   }
   const res = await callCloudDB(ctx, "databasequery", query);
 
   ctx.body = {
     code: 20000,
     data: {
-      pn: res.pager.Offset,
+      pn: res.pager.Offset + 1,
       total: res.pager.Total,
       data: res.data.map((ele) => JSON.parse(ele)),
     },
@@ -36,13 +38,13 @@ router.post("/detail", async (ctx, next) => {
   let query = `db.collection('carOrder')
     .where({
       _openid: '${_openid}'
-    }).get()`;
+    }).skip(${params.start}).limit(${params.count}).orderBy('createTime', 'desc').get()`;
   const res = await callCloudDB(ctx, "databasequery", query);
 
   ctx.body = {
     code: 20000,
     data: {
-      pn: res.pager.Offset,
+      pn: res.pager.Offset + 1,
       total: res.pager.Total,
       data: res.data.map((ele) => JSON.parse(ele)),
     },

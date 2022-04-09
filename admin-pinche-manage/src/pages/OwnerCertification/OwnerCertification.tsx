@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Tag, message, Modal } from "antd";
-import { getCarList, updateCarList } from "../../utils/request";
+import { getCarList, updateCarList, delCarList } from "../../utils/request";
 import TablleCompoent from "../../components/Table";
 
 function OwnerCertification() {
@@ -30,6 +30,7 @@ function OwnerCertification() {
     if (province) {
       region = province.toString();
     }
+    setRegion(region)
     getListData({
       start: 0,
       region,
@@ -50,6 +51,15 @@ function OwnerCertification() {
       driveStatus: driveStatus,
     });
     getListData({
+      start: 0,
+      region,
+      count: 10,
+    });
+  }
+
+  const handleDelete = async(id: number) => {
+    await delCarList(id);
+    await getListData({
       start: 0,
       region,
       count: 10,
@@ -156,7 +166,7 @@ function OwnerCertification() {
         <Tag color='#2db7f5'>
           {
             // eslint-disable-next-line eqeqeq
-            text == 0 ? "审核中" : text == 1 ? "审核通过" : "审核不通过"
+            text == 0 ? "审核中" : text == 1 ? "审核通过" : text == 2 ? "审核不通过" : '账号被封'
           }
         </Tag>
       ),
@@ -170,7 +180,7 @@ function OwnerCertification() {
         <>
           <Button
             onClick={() => handleUpdate(record, 1)}
-            disabled={record.driveStatus != 0}
+            disabled={record.driveStatus != 0 && record.driveStatus != 3}
             size='small'
             style={{ marginLeft: "10px" }}
           >
@@ -178,11 +188,29 @@ function OwnerCertification() {
           </Button>
           <Button
             onClick={() => handleUpdate(record, 2)}
-            disabled={record.driveStatus != 0}
+            disabled={record.driveStatus != 0 && record.driveStatus != 3}
             size='small'
             style={{ marginLeft: "10px" }}
           >
             不通过
+          </Button>
+          <Button
+            onClick={() => handleUpdate(record, 3)}
+            disabled={record.driveStatus != 1}
+            size='small'
+            style={{ marginLeft: "10px" }}
+            danger
+          >
+            封号
+          </Button>
+          <Button
+            onClick={() => handleDelete(record._id)}
+            size='small'
+            style={{ marginLeft: "10px" }}
+            danger
+            ghost
+          >
+            删除
           </Button>
         </>
       ),
@@ -191,8 +219,9 @@ function OwnerCertification() {
 
   function handleStandardTableChange(pagination: any) {
     getListData({
-      start: (pagination.current - 1) * 10,
-      count: pagination.pageSize,
+      start: (pagination.pn - 1) * 10,
+      region,
+      count: pagination.total,
     });
   }
 

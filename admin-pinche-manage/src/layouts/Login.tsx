@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox, Card, message } from 'antd';
+import { Form, Input, Button, InputNumber , Card, message } from 'antd';
 import { useRequest } from 'ahooks'
 import { isLogin } from '../utils/request'
 import { useNavigate } from "react-router-dom";
@@ -49,19 +49,25 @@ export default function Login() {
         autoComplete="off"
       >
         <Form.Item
-          label="phone"
+          label="手机号"
           name="phone"
-          rules={[{ required: true, message: '请输入手机号' }]}
+          rules={[
+            { required: true, message: '请输入手机号' },
+            { min: 11, max: 11, message: "手机号位数11位" },
+          ]}
         >
-          <Input />
+          <Input allowClear placeholder="输入您的手机号"/>
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="密码"
           name="password"
-          rules={[{ required: true, message: '请输入密码' }]}
+          rules={[
+            { required: true, message: '请输入密码' },
+            { min: 6, max: 18, message: "密码位数最少6位，最多18位" }
+          ]}
         >
-          <Input.Password />
+          <Input.Password placeholder="输入您的登陆密码"/>
         </Form.Item>
 
         {/* <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>

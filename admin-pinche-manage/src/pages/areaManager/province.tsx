@@ -192,6 +192,7 @@ function Province() {
           <Form.Item
             label='密码'
             name='pwd'
+            
             rules={[
               { required: true, message: "请输入设置密码" },
               { min: 6, max: 18, message: "密码位数最少6位，最多18位" },
@@ -204,6 +205,7 @@ function Province() {
             <Select
               // defaultValue={text}
               style={{ width: 300 }}
+              placeholder='选择负责省域'
               onChange={(e: any) => onChange(e, "province")}
             >
               <Option value={""}>无</Option>
@@ -234,7 +236,7 @@ function Province() {
               // value={text}
               options={antdOptions}
               onChange={(e: any) => onChange(e, "antd")}
-              placeholder='选择负责市区'
+              placeholder='选择负责县/区'
               style={{ width: 300 }}
             />
           </Form.Item>

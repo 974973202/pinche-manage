@@ -15,6 +15,9 @@ function PeopleManager() {
     antd: localStorage.getItem("antd"),
     isAuth: localStorage.getItem("isAuth") || "",
   });
+  const [region, setRegion] = useState<string>('');
+  const [openid, setOpenid] = useState<string>('');
+
 
   useEffect(() => {
     let region = "root";
@@ -28,6 +31,7 @@ function PeopleManager() {
     if (province) {
       region = province;
     }
+    setRegion(region)
     getListData({
       start: 0,
       region,
@@ -83,16 +87,33 @@ function PeopleManager() {
   ];
 
   const handleModal = async (_openid: string) => {
-    const { data } = await postRequest("/areaPublich/detail", {_openid: _openid});
+    setOpenid(_openid)
+    const options = {
+      _openid: _openid,
+      start: 0,
+      count: 10,
+    }
+    const { data } = await postRequest("/areaPublich/detail", options);
     setModalShow(true);
-    setModalData(data.data)
+    setModalData(data)
   };
 
   function handleStandardTableChange(pagination: any) {
     getListData({
-      start: (pagination.current - 1) * 10,
-      count: pagination.pageSize,
+      start: (pagination.pn - 1) * 10,
+      region,
+      count: pagination.total,
     });
+  }
+
+  async function handleModalTableChange(pagination: any) {
+    const { data } = await postRequest("/areaPublich/detail", {
+      _openid: openid,
+      start: (pagination.pn - 1) * 10,
+      region,
+      count: pagination.total,
+    });
+    setModalData(data)
   }
 
   return (
@@ -114,10 +135,23 @@ function PeopleManager() {
           setModalShow(false);
         }}
         footer={null}
-        title='编辑区域负责人'
+        title='订单详情'
         visible={modalShow}
       >
-        <List
+        <TablleCompoent
+          columns={[
+            {title: '车主姓名', dataIndex: "name", key: "name"},
+            {title: '手机号', dataIndex: "phone", key: "phone"},
+            {title: '行程信息', dataIndex: "location", key: "location"},
+            {title: '日期', dataIndex: "dateIndex", key: "dateIndex"},
+          ]}
+          rowKey={(record: { _id: any }) => record._id}
+          data={modalData}
+          onChange={() => handleModalTableChange(modalData)}
+          style={{ minHeight: 500 }}
+          size='middle'
+        />
+        {/* <List
           // bordered
           dataSource={modalData}
           renderItem={(item) => (
@@ -128,7 +162,7 @@ function PeopleManager() {
               行程：{item.location}/日期：{item.dateIndex}
             </List.Item>
           )}
-        />
+        /> */}
       </Modal>
     </Card>
   );

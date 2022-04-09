@@ -69,21 +69,23 @@ app.use(koajwt({
 const login = require("./controller/login");
 const areaPublich = require("./controller/areaPublich");
 const peopleManager = require("./controller/peopleManager");
-const certification = require("./controller/certification");
+// const certification = require("./controller/certification");
 const ownerCertification = require("./controller/ownerCertification");
 const wayInfo = require("./controller/wayInfo");
 const passenger = require("./controller/passenger");
 const province = require("./controller/province");
+const userInfo = require("./controller/userInfo");
 
 router.use("/login", login.routes());
 
 router.use("/areaPublich", areaPublich.routes());
 router.use("/peopleManager", peopleManager.routes());
-router.use("/certification", certification.routes());
+// router.use("/certification", certification.routes());
 router.use("/ownerCertification", ownerCertification.routes());
 router.use("/wayInfo", wayInfo.routes());
 router.use("/passenger", passenger.routes());
 router.use("/province", province.routes());
+router.use("/userInfo", userInfo.routes());
 
 app.use(router.routes());
 app.use(router.allowedMethods());

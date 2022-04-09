@@ -14,7 +14,7 @@ const LayoutMaster: React.FunctionComponent = () => {
 	return (
 		<Layout className="components-layout-demo-custom-trigger" style={{ minHeight: '100vh' }}>
 			<Sider trigger={null} collapsible collapsed={collapsed}>
-				<div className="logo" >拼车小程序管理后台</div>
+				<div className="logo" >拼车中后台管理系统</div>
 				<SideMenu />
 			</Sider>
 			<Layout>
@@ -38,7 +38,7 @@ const LayoutMaster: React.FunctionComponent = () => {
 				<div style={{minHeight: 500}}>
 					<Outlet/>
 				</div>
-				<Footer style={{ textAlign: 'center' }}>拼车小程序管理后台</Footer>
+				<Footer style={{ textAlign: 'center' }}>Copyright©拼车中后台管理系统</Footer>
 			</Layout>
 		</Layout>
 	);
