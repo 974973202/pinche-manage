@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button, Tag, message, Modal } from "antd";
+import { Button, Tag, Image } from "antd";
 import { getCarList, updateCarList, delCarList } from "../../utils/request";
 import TablleCompoent from "../../components/Table";
 
 function OwnerCertification() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState({
-    show: false,
-    url: "",
-  });
   const [userInfo, setUserInfo] = useState<any>({
     province: localStorage.getItem("province"),
     city: localStorage.getItem("city"),
     antd: localStorage.getItem("antd"),
     isAuth: localStorage.getItem("isAuth") || "",
   });
-  const [region, setRegion] = useState('')
+  const [region, setRegion] = useState("");
 
   useEffect(() => {
     let region = "";
@@ -30,7 +26,7 @@ function OwnerCertification() {
     if (province) {
       region = province.toString();
     }
-    setRegion(region)
+    setRegion(region);
     getListData({
       start: 0,
       region,
@@ -57,14 +53,14 @@ function OwnerCertification() {
     });
   }
 
-  const handleDelete = async(id: number) => {
+  const handleDelete = async (id: number) => {
     await delCarList(id);
     await getListData({
       start: 0,
       region,
       count: 10,
     });
-  }
+  };
 
   const columns = [
     {
@@ -92,70 +88,35 @@ function OwnerCertification() {
       dataIndex: "photo",
       key: "photo",
       align: "center",
-      render: (text: string) => (
-        <img
-          onClick={() => setShowModal({ show: true, url: text })}
-          style={{ height: 100 }}
-          src={text}
-          alt='个人照片'
-        />
-      ),
+      render: (text: string) => <Image width={200} src={text} />,
     },
     {
       title: "驾驶证正面照",
       dataIndex: "zmJszImage",
       key: "zmJszImage",
       align: "center",
-      render: (text: string) => (
-        <img
-          onClick={() => setShowModal({ show: true, url: text })}
-          style={{ height: 100 }}
-          src={text}
-          alt=''
-        />
-      ),
+      render: (text: string) => <Image width={200} src={text} />,
     },
     {
       title: "驾驶证反面照",
       dataIndex: "fmJszImage",
       key: "fmJszImage",
       align: "center",
-      render: (text: string) => (
-        <img
-          onClick={() => setShowModal({ show: true, url: text })}
-          style={{ height: 100 }}
-          src={text}
-          alt=''
-        />
-      ),
+      render: (text: string) => <Image width={200} src={text} />,
     },
     {
       title: "行驶证正面照",
       dataIndex: "zmXszImage",
       key: "zmXszImage",
       align: "center",
-      render: (text: string) => (
-        <img
-          onClick={() => setShowModal({ show: true, url: text })}
-          style={{ height: 100 }}
-          src={text}
-          alt=''
-        />
-      ),
+      render: (text: string) => <Image width={200} src={text} />,
     },
     {
       title: "行驶证反面照",
       dataIndex: "fmXszImage",
       key: "fmXszImage",
       align: "center",
-      render: (text: string) => (
-        <img
-          onClick={() => setShowModal({ show: true, url: text })}
-          style={{ height: 100 }}
-          src={text}
-          alt=''
-        />
-      ),
+      render: (text: string) => <Image width={200} src={text} />,
     },
     {
       title: "状态",
@@ -166,7 +127,13 @@ function OwnerCertification() {
         <Tag color='#2db7f5'>
           {
             // eslint-disable-next-line eqeqeq
-            text == 0 ? "审核中" : text == 1 ? "审核通过" : text == 2 ? "审核不通过" : '账号被封'
+            text == 0
+              ? "审核中"
+              : text == 1
+              ? "审核通过"
+              : text == 2
+              ? "审核不通过"
+              : "账号被封"
           }
         </Tag>
       ),
@@ -225,39 +192,16 @@ function OwnerCertification() {
     });
   }
 
-  
-
   return (
-    <>
-      <TablleCompoent
-        columns={columns}
-        rowKey={(record: { _id: any }) => record._id}
-        data={list}
-        loading={loading}
-        onChange={() => handleStandardTableChange(list)}
-        style={{ minHeight: 500 }}
-        size='middle'
-      />
-      <Modal
-        width='80%'
-        maskClosable={false}
-        onCancel={() => {
-          setShowModal({
-            show: false,
-            url: "",
-          });
-        }}
-        title="信息展示"
-        footer={null}
-        visible={showModal.show}
-      >
-        <img
-          style={{ width: "100%", height: "100%" }}
-          src={showModal.url}
-          alt=''
-        />
-      </Modal>
-    </>
+    <TablleCompoent
+      columns={columns}
+      rowKey={(record: { _id: any }) => record._id}
+      data={list}
+      loading={loading}
+      onChange={() => handleStandardTableChange(list)}
+      style={{ minHeight: 500 }}
+      size='middle'
+    />
   );
 }
 
